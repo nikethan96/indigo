@@ -1,0 +1,642 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Indigo API Documentation
+  description: "This is an API Documentation for the Indigo mibile and web application."
+  contact:
+    name: Nikethan
+    url: https://www.linkedin.com/in/nikethan-selvanathan-a81928101
+    email: nikesky273@gmail.com
+
+# during dev, should point to your local machine
+host: 127.0.0.1:10010
+# host: indigo-nikki.cfapps.io
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  #- https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /hello:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: hello_world
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: hello
+      parameters:
+        - name: name
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessMessageResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  # Organization API's
+  /organization/{ID}:
+    x-swagger-router-controller: OrganizationDocumentController
+    get:
+      description: Get Organization by ID
+      summary: Get Organization by ID
+      tags:
+        - Organizations
+      # used as the method name of the controller
+      operationId: getOrganizationByID
+      parameters:
+        - name: ID
+          in: path
+          description: ID of Organization
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/OrganizationsDef"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /organization:
+    x-swagger-router-controller: OrganizationDocumentController
+    get:
+      description: Retrieves all Organizations documents from the DB
+      summary: Get all the Organizations documents of APIs
+      tags:
+        - Organizations
+      # used as the method name of the controller
+      operationId: getAllOrganizations
+      parameters:
+        - name: limit
+          in: query
+          description: No of organization to return
+          required: true
+          type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/OrganizationsResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Creates a Organization document
+      summary: Add a new Organization Document in DB
+      tags: 
+        - Organizations
+      # used as the method name of the controller
+      operationId: createOrganization
+      parameters:
+        - name: request
+          in: body
+          description: Request to the endpoint
+          required: true
+          schema:
+            $ref: "#/definitions/OrganizationDef"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Update a Organization document
+      summary: Update a Organization Document in DB
+      tags: 
+        - Organizations
+      # used as the method name of the controller
+      operationId: updateOrganization
+      parameters:
+        - name: organizationID
+          in: query
+          description: Id of the organization Document
+          required: true
+          type: string
+        - name: request
+          in: body
+          description: Request to the endpoint
+          required: true
+          schema:
+            $ref: "#/definitions/OrganizationDef"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      description: Delete a Organization document
+      summary: Delete a Organization Document from DB
+      tags: 
+        - Organizations
+      # used as the method name of the controller
+      operationId: deleteOrganization
+      parameters:
+        - name: organizationID
+          in: query
+          description: Id of the organization Document
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  # Branch API's
+  /branch/{ID}:
+    x-swagger-router-controller: BranchDocumentController
+    get:
+      description: Get branch by ID
+      summary: Get branch by ID
+      tags:
+        - Branches
+      # used as the method name of the controller
+      operationId: getBranchByID
+      parameters:
+        - name: ID
+          in: path
+          description: ID of branch
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/BranchesDef"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /branch:
+    x-swagger-router-controller: BranchDocumentController
+    get:
+      description: Retrieves all branches documents from the DB
+      summary: Get all the branches documents of APIs
+      tags:
+        - Branches
+      # used as the method name of the controller
+      operationId: getAllBranches
+      parameters:
+        - name: limit
+          in: query
+          description: No of branches to return
+          required: true
+          type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/BranchesResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Creates a Branch document
+      summary: Add a new Branch Document in DB
+      tags: 
+        - Branches
+      # used as the method name of the controller
+      operationId: createBranch
+      parameters:
+        - name: request
+          in: body
+          description: Request to the endpoint
+          required: true
+          schema:
+            $ref: "#/definitions/BranchDef"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Update a Branch document
+      summary: Update a Branch Document in DB
+      tags: 
+        - Branches
+      # used as the method name of the controller
+      operationId: updateBranch
+      parameters:
+        - name: branchID
+          in: query
+          description: Id of the branch Document
+          required: true
+          type: string
+        - name: request
+          in: body
+          description: Request to the endpoint
+          required: true
+          schema:
+            $ref: "#/definitions/BranchDef"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      description: Delete a Branch document
+      summary: Delete a Branch Document from DB
+      tags: 
+        - Branches
+      # used as the method name of the controller
+      operationId: deleteBranch
+      parameters:
+        - name: branchID
+          in: query
+          description: Id of the Branch Document
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  # Jobs API's
+  /discoverJobs:
+    x-swagger-router-controller: JobsDocumentController
+    get:
+      description: Discover Jobs documents from the DB
+      summary: Discover Jobs
+      tags:
+        - Jobs
+      # used as the method name of the controller
+      operationId: getDiscoverJobs
+      parameters:
+        - name: latitude
+          in: query
+          description: latitude of user
+          required: true
+          type: number
+          # example: 7.715494
+        - name: longitude
+          in: query
+          description: longitude of user
+          required: true
+          type: number
+          # example: 84.904991
+        - name: limit
+          in: query
+          description: No of jobs to return
+          required: true
+          type: number
+          # example: 84.904991
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/JobsResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /jobByID/{ID}:
+    x-swagger-router-controller: JobsDocumentController
+    get:
+      description: Get job by ID
+      summary: Get job by ID
+      tags:
+        - Jobs
+      # used as the method name of the controller
+      operationId: getJobByID
+      parameters:
+        - name: ID
+          in: path
+          description: latitude of user
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/JobsDef"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /jobs:
+    x-swagger-router-controller: JobsDocumentController
+    get:
+      description: Retrieves all Jobs documents from the DB
+      summary: Get all the Jobs documents of APIs
+      tags:
+        - Jobs
+      # used as the method name of the controller
+      operationId: getAllJobs
+      parameters:
+        - name: limit
+          in: query
+          description: No of jobs to return
+          required: true
+          type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/JobsResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Creates a Job document
+      summary: Add a new job Document in DB
+      tags: 
+        - Jobs
+      # used as the method name of the controller
+      operationId: createJob
+      parameters:
+        - name: request
+          in: body
+          description: Request to the endpoint
+          required: true
+          schema:
+            $ref: "#/definitions/JobDef"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Update a Job document
+      summary: Update a job Document in DB
+      tags: 
+        - Jobs
+      # used as the method name of the controller
+      operationId: updateJob
+      parameters:
+        - name: jobId
+          in: query
+          description: Id of the job Document
+          required: true
+          type: string
+        - name: request
+          in: body
+          description: Request to the endpoint
+          required: true
+          schema:
+            $ref: "#/definitions/JobDef"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      description: Delete a Job document
+      summary: Delete a job Document from DB
+      tags: 
+        - Jobs
+      # used as the method name of the controller
+      operationId: deleteJob
+      parameters:
+        - name: jobId
+          in: query
+          description: Id of the job Document
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SuccessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  SuccessMessageResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  SuccessResponse:
+    required:
+      - id
+    properties:
+      id:
+        type: string
+  JobsResponse:
+    required:
+      - jobs
+    properties:
+      jobs:
+        type: array
+        items:
+          $ref: "#/definitions/JobsDef"
+  OrganizationsResponse:
+    required:
+      - organizations
+    properties:
+      organizations:
+        type: array
+        items:
+          $ref: "#/definitions/OrganizationsDef"
+  BranchesResponse:
+    required:
+      - branches
+    properties:
+      branches:
+        type: array
+        items:
+          $ref: "#/definitions/BranchesDef"
+  JobsDef:
+    properties:
+      _id:
+        type: string
+      _rev:
+        type: string
+      branchID:
+        type: string
+      post:
+        type: string
+      allowance:
+        type: string
+      timestamp:
+        type: string
+      startTime:
+        type: string
+      endTime:
+        type: string
+      status:
+        type: number
+      latitude:
+        type: number
+      longitude:
+        type: number
+      collection:
+        type: string
+      branch:
+        items:
+          $ref: "#/definitions/BranchesDef"
+  JobDef:
+    properties:
+      branchID:
+        type: string
+      post:
+        type: string
+      allowance:
+        type: string
+      timestamp:
+        type: string
+      startTime:
+        type: string
+      endTime:
+        type: string
+  BranchesDef:
+    properties:
+      _id:
+        type: string
+      _rev:
+        type: string
+      organizationID:
+        type: string
+      branch:
+        type: string
+      description:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      collection:
+        type: string
+      organization:
+        items:
+          $ref: "#/definitions/OrganizationsDef"
+  OrganizationsDef:
+    properties:
+      _id:
+        type: string
+      _rev:
+        type: string
+      name:
+        type: string
+      image:
+        type: string
+      founder:
+        type: string
+      founded:
+        type: string
+      description:
+        type: string
+      collection:
+        type: string
+  OrganizationDef:
+    properties:
+      name:
+        type: string
+      image:
+        type: string
+      founder:
+        type: string
+      founded:
+        type: string
+      description:
+        type: string
+  BranchDef:
+    properties:
+      organizationID:
+        type: string
+      branch:
+        type: string
+      description:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
