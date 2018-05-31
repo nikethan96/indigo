@@ -63,23 +63,24 @@ How to use
 
 Sample data - (VIEW)
 
-   "views": {
-       "viewByCollection": {
-           "map": "function(doc) { emit(doc.collection, doc) }"
-       },
-       "viewById": {
-           "map": "function(doc) { emit(doc._id, doc) }"
-       },
-       "viewByTimestampOnCollectionJobs": {
-           "map": "function(doc){if (doc.collection === 'Job' && doc.status === 0) {emit([doc.latitude, doc.longitude, doc.timestamp], doc)}}"
-       },
-       "viewBranchByOrganizationID": {
-           "map": "function(doc) { if (doc.collection == 'Branch') { emit(doc.organizationID, doc); } }"
-       },
-       "viewByall": {
-           "map": "function(doc) { if(doc.collection === 'Organization'){emit([doc._id, 0], doc)}else if (doc.collection === 'Branch') {emit([doc.organizationID, 1], doc)}else if (doc.collection === 'Job') {emit([doc.branchID, 2], doc)} }"
-       },
-       "viewJobsByBranchID": {
-           "map": "function(doc) { if (doc.collection == 'Job') { emit(doc.branchID, doc); } }"
-       }
-   }
+	# View
+	   "views": {
+	       "viewByCollection": {
+		   "map": "function(doc) { emit(doc.collection, doc) }"
+	       },
+	       "viewById": {
+		   "map": "function(doc) { emit(doc._id, doc) }"
+	       },
+	       "viewByTimestampOnCollectionJobs": {
+		   "map": "function(doc){if (doc.collection === 'Job' && doc.status === 0) {emit([doc.latitude, doc.longitude, doc.timestamp], doc)}}"
+	       },
+	       "viewBranchByOrganizationID": {
+		   "map": "function(doc) { if (doc.collection == 'Branch') { emit(doc.organizationID, doc); } }"
+	       },
+	       "viewByall": {
+		   "map": "function(doc) { if(doc.collection === 'Organization'){emit([doc._id, 0], doc)}else if (doc.collection === 'Branch') {emit([doc.organizationID, 1], doc)}else if (doc.collection === 'Job') {emit([doc.branchID, 2], doc)} }"
+	       },
+	       "viewJobsByBranchID": {
+		   "map": "function(doc) { if (doc.collection == 'Job') { emit(doc.branchID, doc); } }"
+	       }
+	   }
